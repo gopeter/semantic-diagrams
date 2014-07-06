@@ -8,7 +8,7 @@ Little web app that let users interact with interactive diagrams in SVG. Semanti
 
 ## Installation
 
-1. Clone this repository: `git clone git@github.com:gopeter/semantic-metro-map.git`
+1. Clone this repository: `git clone git@github.com:gopeter/semantic-diagrams.git`
 2. Create virtual env: `virtualenv venv`
 3. Activate virtual env: `source venv/bin/activate` (do this for every new terminal session)
 4. Install requirements: `pip install -r requirements.txt`
