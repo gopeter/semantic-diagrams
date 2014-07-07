@@ -1,6 +1,6 @@
 # semantic-diagrams
 
-Little web app that let users interact with interactive diagrams in SVG. Semantic data is included as RDF/XML and RDFa.
+Little web app that let users interact with diagrams in SVG. Semantic data is included as RDFa.
 
 [Live demo on Heroku](http://semantic-diagrams.herokuapp.com) (runs with 1 dyno so first start could take a while)
 
