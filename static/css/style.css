@@ -43,6 +43,10 @@ section {
   margin: 0 60px 60px 0;
 }
 
+#step2 {
+  display: none;
+}
+
 /****************************
  * Content
  ***************************/
@@ -99,10 +103,14 @@ table tr td:first-child {
  * SVG
  ***************************/
 
-#chart {
+#chart-wrapper {
   padding: 20px;
   border: 1px solid #ccc;
-  display: none;
+}
+
+svg {
+  display: block;
+  margin: 0 0 20px 0;
 }
 
 svg text.name {

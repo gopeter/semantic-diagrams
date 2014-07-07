@@ -51,6 +51,7 @@ SD.prototype = {
     // event handler
     $(document).hammer();
     $(document).on('tap', '#createDiagram', $.proxy(this.createDiagram,this));
+    $(document).on('tap', '#parse', $.proxy(this.parseSVG,this));    
       
   },
   
@@ -167,11 +168,29 @@ SD.prototype = {
            
       }
       
-      $('#chart').show();
+      $('#step2').show();
       this.chartCreationDone = true;
     
     }
         
+  },
+  
+  parseSVG: function() {
+  
+    $.ajax({
+      url: '/parse',
+      type: 'post',
+      data: {
+        svg: $('#chart').html()
+      },  
+      dataType: 'json',
+      success: function(res) {
+        alert(res)
+      }
+    });
+    
+    return false;
+    
   }
   
 };
