@@ -34,7 +34,14 @@ var SD = function() {
   this.keys = ['2012', '2050'];
   this.colors = ['#1D71B8', '#F39200'];  
   
+  // queries
+  this.queries = {
+    'findCountriesWithGivenPopulation': 'SELECT ?country ?year WHERE { ?country ex:hasPopulation ?b . ?b ex:population 63600000 . ?b ex:year ?year }',
+    'findPopulationFromAllCountries2012': 'SELECT ?country ?population WHERE { ?country ex:hasPopulation ?b . ?b ex:population ?population . ?b ex:year 2012 }'
+  }
+  
   this.chartCreationDone = false;
+  this.chartParsingDone = false;  
   
   this.init();  
   
@@ -52,6 +59,8 @@ SD.prototype = {
     $(document).hammer();
     $(document).on('tap', '#createDiagram', $.proxy(this.createDiagram,this));
     $(document).on('tap', '#parse', $.proxy(this.parseSVG,this));    
+    $(document).on('tap', '.insertQuery', $.proxy(this.insertQuery,this));        
+    $(document).on('tap', '#runQuery', $.proxy(this.runQuery,this));            
       
   },
   
@@ -128,7 +137,7 @@ SD.prototype = {
           .data(data)
           .enter().append('g')
           .attr('about', function(d) { return 'http://dbpedia.org/resource/' + d.name })
-          .attr('transform', function(d, i) { return 'translate(0,' + i * barHeight * self.keys.length + ')'; });
+          .attr('transform', function(d, i) { return 'translate(0,' + (i * barHeight * self.keys.length) + ')'; });
           
       bar.append('text')
          .attr('x', longestString)
@@ -154,7 +163,7 @@ SD.prototype = {
            .attr('dy', '.35em')
            .attr('class', 'value')        
            .attr('property', 'ex:population')
-           .attr('datatype', 'xsd:int')
+           .attr('datatype', 'xsd:integer')
            .text(function(d) { return d.values[self.keys[i]]; });
            
         barGroup.append('text')
@@ -163,7 +172,7 @@ SD.prototype = {
            .attr('dy', '.35em')
            .attr('class', 'year')
            .attr('property', 'ex:year')         
-           .attr('datatype', 'xsd:int')         
+           .attr('datatype', 'xsd:integer')         
            .text(function(d) { return self.keys[i]; });         
            
       }
@@ -177,19 +186,84 @@ SD.prototype = {
   
   parseSVG: function() {
   
+    if (!this.chartParsingDone) {
+  
+      var self = this;
+    
+      $.ajax({
+        url: '/parse',
+        type: 'post',
+        data: {
+          svg: $('#chart').html()
+        },
+        success: function() {
+          $('#step3').show();
+          self.chartParsingDone = true;
+        }
+      });
+    
+    }
+    
+  },
+  
+  insertQuery: function(el) {
+    
+    var type = $(el.target).data('query');
+    var query = this.queries[type];
+    $('textarea').val(query);
+    
+  },
+  
+  runQuery: function() {
+  
+    var self = this;
+    
     $.ajax({
-      url: '/parse',
+      url: '/query',
       type: 'post',
       data: {
-        svg: $('#chart').html()
-      },  
+        query: $('textarea').val()
+      },
       dataType: 'json',
       success: function(res) {
-        alert(res)
+      
+        var resultVars = [];
+      
+        var $resultTable = $('#results table');
+        $resultTable.empty();
+      
+        // print results as table                
+        var table_heads = '';      
+        
+        $.each(res.head.vars, function(i, obj) {
+          table_heads += '<th>' + obj + '</th>';
+          resultVars.push(obj);
+        });        
+        
+        $resultTable.append('<tr>' + table_heads + '</tr>');
+        
+        $.each(res.results.bindings, function(i, obj) {
+          var table_row = '';
+          
+          for (var i = 0; i < self.objectLength(obj); i++) { 
+          
+            var val;
+            if (obj[resultVars[i]].type == 'uri') {
+              val = '<a href="' + obj[resultVars[i]].value + '" target="_blank">' + obj[resultVars[i]].value +'</a>';
+            } else {
+              val = obj[resultVars[i]].value;
+            }
+            
+            table_row += '<td>' + val + '</td>';
+          }
+          
+          $resultTable.append('<tr>' + table_row + '</tr>');
+        });
+        
+        $('#results').show();
+        
       }
-    });
-    
-    return false;
+    });    
     
   }
   

@@ -10,7 +10,7 @@ from flask import Flask, jsonify, render_template, request
 app = Flask(__name__)
 
 ################################################################################
-# Extract triples from SVG
+# Store SVG temporary
 ################################################################################
 
 @app.route('/parse', methods = ['POST'])
@@ -23,17 +23,24 @@ def parseData():
   f = open('tmp.svg','w')
   f.write(p_svg) # python will convert \n to os.linesep
   f.close()
+  
+  return 'parsed'
+
+################################################################################
+# Query SVG
+################################################################################
+
+@app.route('/query', methods = ['POST'])
+def queryData():
+
+  # store post data
+  p_query = request.form['query']
 
   g = Graph()
-  
   g.parse('tmp.svg', format = 'rdfa')
   
-  triples = []
-  for s,p,o in g:
-    triples.append([s,p,o])
-  
-  return json.dumps(triples)
-
+  rows = g.query(p_query)
+  return rows.serialize(format = "json")
 
 ################################################################################
 # Serve index file

@@ -40,10 +40,22 @@ header {
 
 section {
   float: left;
-  margin: 0 60px 60px 0;
+  margin: 0 30px 30px 0;
+  padding: 0 30px 30px 30px;
+  border-left: 1px solid #ccc;
+  min-height: 400px;
+}
+
+section:first-of-type {
+  border-left: none;
+  padding-left: 0px;
 }
 
 #step2 {
+  display: none;
+}
+
+#step3 {
   display: none;
 }
 
@@ -85,18 +97,46 @@ table td,
 table th {
   border: 1px solid #ccc;
   padding: 5px;
-}
-
-table tr th:first-child {
   text-align: left;
 }
 
-table tr td {
+#step1 table tr th,
+#step1 table tr td {
   text-align: right;
 }
 
-table tr td:first-child {
+#step1 table tr th:first-child,
+#step1 table tr td:first-child {
   text-align: left;
+}
+
+#queries .actions {
+  margin: 0 0 10px 0;
+}
+
+#queries .actions button {
+  display: block;
+}
+
+#queries textarea {
+  width: 300px;
+  height: 100px;
+  display: block;
+  border: 1px solid #ccc;
+  margin: 0 0 10px 0;
+}
+
+#queries #submit {
+  margin-top: 0px;
+}
+
+#results {
+  display: none;
+  margin: 10px 0 0 0;
+}
+
+#results h4 {
+  margin: 0 0 5px 0;
 }
 
 /****************************
@@ -104,8 +144,6 @@ table tr td:first-child {
  ***************************/
 
 #chart-wrapper {
-  padding: 20px;
-  border: 1px solid #ccc;
 }
 
 svg {
