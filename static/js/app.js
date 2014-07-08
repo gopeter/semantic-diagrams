@@ -57,10 +57,10 @@ SD.prototype = {
   
     // event handler
     $(document).hammer();
-    $(document).on('tap', '#createDiagram', $.proxy(this.createDiagram,this));
-    $(document).on('tap', '#parse', $.proxy(this.parseSVG,this));    
-    $(document).on('tap', '.insertQuery', $.proxy(this.insertQuery,this));        
-    $(document).on('tap', '#runQuery', $.proxy(this.runQuery,this));            
+    $(document).on('tap', '#createDiagram', $.proxy(this.createDiagram, this));
+    $(document).on('tap', '#parse', $.proxy(this.parseSVG, this));    
+    $(document).on('tap', '.insertQuery', $.proxy(this.insertQuery, this));        
+    $(document).on('tap', '#runQuery', $.proxy(this.runQuery, this));            
       
   },
   
