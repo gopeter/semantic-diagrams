@@ -147,7 +147,7 @@ SD.prototype = {
          .attr('class', 'name')
          .text(function(d) { return d.name; });    
     
-      for (i = 0; i < this.keys.length; i++) {
+      for (var i = 0; i < this.keys.length; i++) {
         var barGroup = bar.append('g').
             attr('rel', 'ex:hasPopulation');    
             
