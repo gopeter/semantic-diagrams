@@ -136,7 +136,7 @@ SD.prototype = {
       var bar = chart.selectAll('g')
           .data(data)
           .enter().append('g')
-          .attr('about', function(d) { return 'http://dbpedia.org/resource/' + d.name })
+          .attr('resource', function(d) { return 'http://dbpedia.org/resource/' + d.name })
           .attr('transform', function(d, i) { return 'translate(0,' + (i * barHeight * self.keys.length) + ')'; });
           
       bar.append('text')
