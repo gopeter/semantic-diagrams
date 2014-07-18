@@ -196,9 +196,17 @@ SD.prototype = {
         data: {
           svg: $('#chart').html()
         },
+        beforeSend: function() {
+          $('.spinner').addClass('show');        
+        },        
         success: function() {
           $('#step3').show();
           self.chartParsingDone = true;
+          
+          setTimeout(function() {
+            $('.spinner').removeClass('show');
+          }, 500)
+          
         }
       });
     
@@ -225,7 +233,14 @@ SD.prototype = {
         query: $('textarea').val()
       },
       dataType: 'json',
+      beforeSend: function() {
+        $('.spinner').addClass('show');        
+      },
       success: function(res) {
+      
+        setTimeout(function() {
+          $('.spinner').removeClass('show');
+        }, 500)
       
         var resultVars = [];
       
