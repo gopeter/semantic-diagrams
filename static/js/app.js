@@ -240,7 +240,7 @@ SD.prototype = {
       
         setTimeout(function() {
           $('.spinner').removeClass('show');
-        }, 500)
+        }, 500);
       
         var resultVars = [];
       
